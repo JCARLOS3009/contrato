@@ -37,14 +37,14 @@
             const data = formatarDataPorExtenso(document.getElementById('data').value);
 
             const contrato = `
-            LOCADOR(A): ${locadorNome}, ${locadorNacionalidade}, ${locadorEstadoCivil}, portador(a) do RG nº ${locadorRG} e CPF nº ${locadorCPF}, residente e domiciliado(a) em ${enderecoLocador}.
+            LOCATÁRIA: ${locadorNome}, ${locadorNacionalidade}, ${locadorEstadoCivil}, portador(a) do RG nº ${locadorRG} e CPF nº ${locadorCPF}, residente e domiciliado(a) em ${enderecoLocador}.
             
-            LOCATÁRIO(A): José Carlos Barreto Filho, Brasileiro, Solteiro, portador(a) do RG nº 20.350.369-41 e CPF nº 043.732.745-09, residente e domiciliado(a) em Rua Raul Leite, Condomínio Villa Privilege, T5, ap1208.
+            LOCADOR: José Carlos Barreto Filho, Brasileiro, Solteiro, portador(a) do RG nº 20.350.369-41 e CPF nº 043.732.745-09, residente e domiciliado(a) em Rua Raul Leite, Condomínio Villa Privilege, T5, ap1208.
             
             As partes acima identificadas têm entre si, justo e acertado, o presente CONTRATO DE LOCAÇÃO DE IMÓVEL RESIDENCIAL MOBILIADO, que se regerá pelas cláusulas e condições seguintes e pela Lei nº 8.245/1991.
             
             CLÁUSULA 1ª - DO OBJETO
-            O LOCADOR cede em locação ao LOCATÁRIO um imóvel residencial devidamente mobiliado, conforme descrito no inventário anexo a este contrato.
+            O LOCADOR cede em locação ao LOCATÁRIO um imóvel residencial devidamente mobiliado localizado na Avenida Gov. João Durval Carneiro, Feria de Santana-BA, CEP 41181-900,n150,apto 303,bl 002.
             
             CLÁUSULA 2ª - DO PRAZO
             O prazo de locação será de ${prazo} meses, iniciando-se em ${dataInicio} e terminando em ${dataFim}, podendo ser prorrogado mediante acordo entre as partes.
@@ -52,7 +52,7 @@
             CLÁUSULA 3ª - DO VALOR E FORMA DE PAGAMENTO
             O aluguel mensal será de R$ 1.600,00 (um mil e seiscentos reais), valor que inclui o aluguel do imóvel, o IPTU e a taxa de condomínio. O pagamento deverá ser efetuado até o dia 5 de cada mês, por meio de ${formaPagamento}.
             
-            Em caso de atraso no pagamento, incidirá sobre o valor devido multa de 1% (um por cento) e juros moratórios de 1% (um por cento) ao mês, calculados pro rata die, até a data do efetivo pagamento.
+            Em caso de atraso no pagamento, incidirá sobre o valor devido multa de 2% (um por cento) e juros moratórios de 1% (um por cento) ao mês, calculados pro rata die, até a data do efetivo pagamento.
             
             CLÁUSULA 4ª - DOS ENCARGOS DO LOCATÁRIO
             São de responsabilidade do LOCATÁRIO o pagamento das contas de energia elétrica, gás e demais despesas inerentes ao uso do imóvel, exceto o IPTU e a taxa de condomínio, que já estão incluídos no valor do aluguel.
@@ -61,7 +61,7 @@
             O LOCATÁRIO deverá zelar pela boa conservação do imóvel e da mobília, comprometendo-se a devolver tudo em perfeito estado ao final da locação, salvo o desgaste natural.
             
             CLÁUSULA 6ª - DAS BENFEITORIAS
-            Nenhuma alteração estrutural ou benfeitoria poderá ser feita no imóvel sem prévia autorização por escrito do LOCADOR.
+            Nenhuma alteração estrutural ou benfeitoria poderá ser feita no imóvel sem prévia autorização por escrito da Locatária.
             
             CLÁUSULA 7ª - DA MULTA E RESCISÃO
             O descumprimento de qualquer cláusula deste contrato poderá resultar em rescisão imediata, sujeitando a parte infratora ao pagamento de multa conforme legislação vigente.
@@ -99,36 +99,48 @@
 
             doc.save("Contrato_Locacao.pdf");
         }
+
+        // Função para garantir que o prazo seja no mínimo 12 meses
+        function validarPrazo() {
+            const prazoInput = document.getElementById('prazo');
+            if (parseInt(prazoInput.value) < 12) {
+                prazoInput.value = 12;  // Se o prazo for menor que 12, corrige para 12
+            }
+        }
     </script>
 </head>
 <body>
     <h2>Formulário de Locação</h2>
-    <label>Nome completo do Locador:</label>
+    <label>Nome completo da Locatária:</label>
     <input type="text" id="locadorNome"><br>
-    <label>Nacionalidade do Locador:</label>
+    <label>Nacionalidade da Locatária:</label>
     <input type="text" id="locadorNacionalidade"><br>
-    <label>Estado civil do Locador:</label>
+    <label>Estado civil da Locatária:</label>
     <input type="text" id="locadorEstadoCivil"><br>
-    <label>RG do Locador:</label>
+    <label>RG da Locatária:</label>
     <input type="text" id="locadorRG"><br>
-    <label>CPF do Locador:</label>
+    <label>CPF da Locatária:</label>
     <input type="text" id="locadorCPF"><br>
-    <label>Endereço do Locador:</label>
+    <label>Endereço da Locatária:</label>
     <input type="text" id="enderecoLocador"><br>
 
     <label>Prazo (meses):</label>
-    <input type="number" id="prazo" oninput="calcularDataTermino()"><br>
+    <input type="number" id="prazo" oninput="validarPrazo(); calcularDataTermino()" min="12"><br>
+    
     <label>Data de Início:</label>
     <input type="date" id="dataInicio" oninput="calcularDataTermino()"><br>
     <input type="hidden" id="dataFim"><br>
+    
     <label>Forma de Pagamento:</label>
     <input type="text" id="formaPagamento"><br>
+    
     <label>Cidade:</label>
     <input type="text" id="cidade"><br>
+    
     <label>Data:</label>
     <input type="date" id="data"><br>
 
-    <button onclick="preencherContrato()">Gerar Minuta Contrato</button>
+    <button onclick="preencherContrato()">Gerar contrato</button>
     <button onclick="gerarPDF()">Baixar PDF</button>
 
     <h3>Contrato Gerado:</h3>
