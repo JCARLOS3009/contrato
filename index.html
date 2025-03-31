@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulário de Locação</title>
+    <script>
+        function preencherContrato() {
+            const locador = document.getElementById('locador').value;
+            const locatario = document.getElementById('locatario').value;
+            const endereco = document.getElementById('endereco').value;
+            const prazo = document.getElementById('prazo').value;
+            const dataInicio = document.getElementById('dataInicio').value;
+            const dataFim = document.getElementById('dataFim').value;
+            const valor = document.getElementById('valor').value;
+            const formaPagamento = document.getElementById('formaPagamento').value;
+            const cidade = document.getElementById('cidade').value;
+            const data = document.getElementById('data').value;
+
+            const contrato = `
+            CONTRATO DE LOCAÇÃO DE IMÓVEL RESIDENCIAL MOBILIADO
+
+            LOCADOR: ${locador}
+            LOCATÁRIO: ${locatario}
+            
+            As partes acima identificadas têm entre si, justo e acertado, o presente CONTRATO DE LOCAÇÃO DE IMÓVEL RESIDENCIAL MOBILIADO, que se regerá pelas cláusulas e condições seguintes:
+            
+            CLÁUSULA 1ª - DO OBJETO
+            O LOCADOR cede em locação ao LOCATÁRIO o imóvel residencial localizado em ${endereco}.
+            
+            CLÁUSULA 2ª - DO PRAZO
+            O prazo de locação será de ${prazo} meses, iniciando-se em ${dataInicio} e terminando em ${dataFim}.
+            
+            CLÁUSULA 3ª - DO VALOR E FORMA DE PAGAMENTO
+            O aluguel mensal será de R$ ${valor}, incluindo IPTU e condomínio. O pagamento deverá ser efetuado até o dia 5 de cada mês, por meio de ${formaPagamento}.
+            
+            CLÁUSULA 4ª - DO FORO
+            As partes elegem o foro da comarca de ${cidade} para dirimir quaisquer dúvidas oriundas deste contrato.
+            
+            [Cidade], ${data}
+            `;
+
+            document.getElementById('contratoGerado').innerText = contrato;
+        }
+    </script>
+</head>
+<body>
+    <h2>Formulário de Locação</h2>
+    <label>Nome do Locador:</label>
+    <input type="text" id="locador"><br>
+    <label>Nome do Locatário:</label>
+    <input type="text" id="locatario"><br>
+    <label>Endereço do Imóvel:</label>
+    <input type="text" id="endereco"><br>
+    <label>Prazo (meses):</label>
+    <input type="number" id="prazo"><br>
+    <label>Data de Início:</label>
+    <input type="date" id="dataInicio"><br>
+    <label>Data de Término:</label>
+    <input type="date" id="dataFim"><br>
+    <label>Valor do Aluguel:</label>
+    <input type="text" id="valor"><br>
+    <label>Forma de Pagamento:</label>
+    <input type="text" id="formaPagamento"><br>
+    <label>Cidade:</label>
+    <input type="text" id="cidade"><br>
+    <label>Data:</label>
+    <input type="date" id="data"><br>
+    <button onclick="preencherContrato()">Gerar Contrato</button>
+
+    <h3>Contrato Gerado:</h3>
+    <pre id="contratoGerado"></pre>
+</body>
+</html>
